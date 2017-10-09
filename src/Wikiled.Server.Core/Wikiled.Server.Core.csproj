@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
 	<Authors>Wikiled</Authors>
 	<Description>Shared Server Core Library</Description>
 	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>	
@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
-    <PackageReference Include="Wikiled.Core.Standard" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Wikiled.Core.Standard" Version="1.2.3" />
   </ItemGroup>
   
   <ItemGroup>

@@ -5,7 +5,7 @@ namespace Wikiled.Server.Core.Helpers
 {
     public static class BasicExtensions
     {
-        public static List<string> SplitCsv(this string csvList, bool nullOrWhitespaceInputReturnsNull = false)
+        public static IEnumerable<string> SplitCsv(this string csvList, bool nullOrWhitespaceInputReturnsNull = false)
         {
             if (string.IsNullOrWhiteSpace(csvList))
             {
@@ -16,8 +16,7 @@ namespace Wikiled.Server.Core.Helpers
                 .TrimEnd(',')
                 .Split(',')
                 .AsEnumerable()
-                .Select(s => s.Trim())
-                .ToList();
+                .Select(s => s.Trim());
         }
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
 using NUnit.Framework;
 using System;
+using Wikiled.Core.Standard.Api.Server;
 using Wikiled.Server.Core.Data;
 
 namespace Wikiled.Server.Core.Tests.Data
