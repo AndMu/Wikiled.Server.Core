@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+	<Authors>Wikiled</Authors>
+	<Description>Shared Server Core Library</Description>
+	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>	
+	<ProjectUrl>https://github.com/AndMu/Wikiled.Server.Core</ProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
