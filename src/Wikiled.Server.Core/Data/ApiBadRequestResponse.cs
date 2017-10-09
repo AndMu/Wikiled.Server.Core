@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Wikiled.Service.Data
+namespace Wikiled.Server.Core.Data
 {
     public class ApiBadRequestResponse : ApiResponse
     {

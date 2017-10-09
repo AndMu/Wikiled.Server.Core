@@ -1,4 +1,4 @@
-﻿namespace Wikiled.Service.Data
+﻿namespace Wikiled.Server.Core.Data
 {
     public class ApiOkResponse : ApiResponse
     {
