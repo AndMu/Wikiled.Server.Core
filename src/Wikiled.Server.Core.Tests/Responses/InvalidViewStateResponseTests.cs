@@ -1,10 +1,10 @@
+using System;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using NUnit.Framework;
-using System;
 using Wikiled.Core.Standard.Api.Server;
-using Wikiled.Server.Core.Data;
+using Wikiled.Server.Core.Responses;
 
-namespace Wikiled.Server.Core.Tests.Data
+namespace Wikiled.Server.Core.Tests.Responses
 {
     [TestFixture]
     public class InvalidViewStateResponseTests

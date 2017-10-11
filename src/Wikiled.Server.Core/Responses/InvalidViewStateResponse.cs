@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Wikiled.Core.Standard.Api.Server;
 using Wikiled.Core.Standard.Arguments;
 
-namespace Wikiled.Server.Core.Data
+namespace Wikiled.Server.Core.Responses
 {
     public class InvalidViewStateResponse : ApiResponse
     {

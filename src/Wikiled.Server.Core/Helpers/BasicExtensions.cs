@@ -5,13 +5,13 @@ namespace Wikiled.Server.Core.Helpers
 {
     public static class BasicExtensions
     {
-        public static IEnumerable<string> SplitCsv(this string csvList, bool nullOrWhitespaceInputReturnsNull = false)
+        public static IEnumerable<string> SplitCsv(this string csvList)
         {
             if (string.IsNullOrWhiteSpace(csvList))
             {
-                return nullOrWhitespaceInputReturnsNull ? null : new List<string>();
+                return new string[] { };
             }
-
+                
             return csvList
                 .TrimEnd(',')
                 .Split(',')
