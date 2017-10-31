@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Wikiled.Server.Core.ActionFilters;
+using Wikiled.Server.Core.Testing.Server;
 using Wikiled.Server.Core.Tests.Helpers;
-using Wikiled.Server.Core.Tests.TestHelpers;
 
 namespace Wikiled.Server.Core.Tests.ActionFilters
 {
