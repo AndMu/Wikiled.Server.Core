@@ -14,6 +14,7 @@ namespace Wikiled.Server.Core.Testing.Server
         {
             Server = new TestServer(builder);
             Client = Server.CreateClient();
+            Client.Timeout = TimeSpan.MaxValue;
             ApiClient = new ApiClientFactory(Client, Client.BaseAddress).GetClient();
         }
 
