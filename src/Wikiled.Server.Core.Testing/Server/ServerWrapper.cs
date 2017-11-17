@@ -16,6 +16,7 @@ namespace Wikiled.Server.Core.Testing.Server
             Client = Server.CreateClient();
             Client.Timeout = TimeSpan.MaxValue;
             ApiClient = new ApiClientFactory(Client, Client.BaseAddress).GetClient();
+            StreamingClient = new RawApiClientFactory(Client, Client.BaseAddress).GetClient();
         }
 
         public TestServer Server { get; }
@@ -23,6 +24,8 @@ namespace Wikiled.Server.Core.Testing.Server
         public IApiClient ApiClient { get; }
 
         public HttpClient Client { get; }
+
+        public IApiClient StreamingClient { get; }
 
         public static ServerWrapper Create<TStartup>(string root, Action<IServiceCollection> configureServices)
             where TStartup : class 
