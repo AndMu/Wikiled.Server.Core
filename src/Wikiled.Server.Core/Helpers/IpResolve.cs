@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Wikiled.Server.Core.Helpers
 {
-    public class IpResolve
+    public class IpResolve : IIpResolve
     {
         private readonly HttpContext context;
 
