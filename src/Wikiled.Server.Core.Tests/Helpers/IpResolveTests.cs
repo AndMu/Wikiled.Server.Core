@@ -54,7 +54,7 @@ namespace Wikiled.Server.Core.Tests.Helpers
 
         private IpResolve CreateIpResolve()
         {
-            return new IpResolve(contextManager.HttpContext.Object);
+            return new IpResolve(contextManager.HttpContextAccessor.Object);
         }
     }
 }
