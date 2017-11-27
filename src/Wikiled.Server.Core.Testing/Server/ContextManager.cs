@@ -37,6 +37,8 @@ namespace Wikiled.Server.Core.Testing.Server
             HttpRequest.Setup(item => item.Headers).Returns(RequestDictionary);
             ConnectionInfo = new DefaultConnectionInfo(new FeatureCollection());
             HttpContext.Setup(item => item.Connection).Returns(ConnectionInfo);
+            HttpContextAccessor = new Mock<IHttpContextAccessor>();
+            HttpContextAccessor.Setup(item => item.HttpContext).Returns(HttpContext.Object);
         }
 
         public DefaultConnectionInfo ConnectionInfo { get; }
@@ -52,6 +54,8 @@ namespace Wikiled.Server.Core.Testing.Server
         public HeaderDictionary RequestDictionary { get; }
 
         public Mock<HttpContext> HttpContext { get; }
+
+        public Mock<IHttpContextAccessor> HttpContextAccessor { get; }
 
         public ModelStateDictionary ModelStateDictionary { get; }
 

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Wikiled.Core.Standard.Arguments;
 
 namespace Wikiled.Server.Core.Helpers
 {
-    public class IpResolve
+    public class IpResolve : IIpResolve
     {
         private readonly HttpContext context;
 
-        public IpResolve(HttpContext context)
+        public IpResolve(IHttpContextAccessor contextAcccessor)
         {
-            this.context = context;
+            Guard.NotNull(() => contextAcccessor, contextAcccessor);
+            context = contextAcccessor.HttpContext;
         }
 
         public string GetRequestIp(bool tryUseXForwardHeader = true)

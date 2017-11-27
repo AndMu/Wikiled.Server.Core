@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using Microsoft.AspNetCore.Http;
 using NUnit.Framework;
 using Wikiled.Server.Core.Helpers;
 using Wikiled.Server.Core.Testing.Server;
@@ -23,7 +24,9 @@ namespace Wikiled.Server.Core.Tests.Helpers
         [Test]
         public void GetRequestIpNull()
         {
-            var ipResolve = new IpResolve(null);
+            Assert.Throws<ArgumentNullException>(() => new IpResolve(null));
+            contextManager.HttpContextAccessor.Setup(item => item.HttpContext).Returns((HttpContext)null);
+            var ipResolve = new IpResolve(contextManager.HttpContextAccessor.Object);
             Assert.Throws<Exception>(() => ipResolve.GetRequestIp());
         }
 
@@ -54,7 +57,7 @@ namespace Wikiled.Server.Core.Tests.Helpers
 
         private IpResolve CreateIpResolve()
         {
-            return new IpResolve(contextManager.HttpContext.Object);
+            return new IpResolve(contextManager.HttpContextAccessor.Object);
         }
     }
 }
