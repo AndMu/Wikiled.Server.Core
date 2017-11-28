@@ -20,6 +20,8 @@ namespace Wikiled.Server.Core.Testing.Server
             RouteData = new Mock<RouteData>();
             ModelStateDictionary = new ModelStateDictionary();
             HttpContext = new Mock<HttpContext>();
+            Response = new Mock<HttpResponse>();
+            HttpContext.Setup(item => item.Response).Returns(Response.Object);
             Controller = new Mock<T>();
             var actionContext = new ActionContext(
                 HttpContext.Object,
@@ -40,6 +42,8 @@ namespace Wikiled.Server.Core.Testing.Server
             HttpContextAccessor = new Mock<IHttpContextAccessor>();
             HttpContextAccessor.Setup(item => item.HttpContext).Returns(HttpContext.Object);
         }
+
+        public Mock<HttpResponse> Response { get; }
 
         public DefaultConnectionInfo ConnectionInfo { get; }
 
