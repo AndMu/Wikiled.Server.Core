@@ -11,7 +11,7 @@ using Moq;
 
 namespace Wikiled.Server.Core.Testing.Server
 {
-    public class ContextManager<T> where T : class
+    public class ContextManager<T> where T : ControllerBase
     {
         public ContextManager(T controller = null)
         {
@@ -27,6 +27,7 @@ namespace Wikiled.Server.Core.Testing.Server
             {
                 ControllerMock = new Mock<T>();
                 Controller = ControllerMock.Object;
+                ControllerMock.Setup(item => item.Response).Returns(Response.Object);
             }
 
             var actionContext = new ActionContext(
@@ -39,7 +40,6 @@ namespace Wikiled.Server.Core.Testing.Server
                 new List<IFilterMetadata>(),
                 ActionArguments,
                 Controller);
-            ControllerContext = new Mock<ControllerContext>();
             HttpRequest = new Mock<HttpRequest>();
             HttpContext.Setup(item => item.Request).Returns(HttpRequest.Object);
             RequestDictionary = new HeaderDictionary();
@@ -48,11 +48,16 @@ namespace Wikiled.Server.Core.Testing.Server
             HttpContext.Setup(item => item.Connection).Returns(ConnectionInfo);
             HttpContextAccessor = new Mock<IHttpContextAccessor>();
             HttpContextAccessor.Setup(item => item.HttpContext).Returns(HttpContext.Object);
+            ControllerContext = new ControllerContext(actionContext);
+            if (controller != null)
+            {
+                controller.ControllerContext = ControllerContext;
+            }
         }
 
         public T Controller { get; }
 
-        public Mock<ControllerContext> ControllerContext { get; }
+        public ControllerContext ControllerContext { get; }
 
         public Mock<HttpResponse> Response { get; }
 
