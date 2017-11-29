@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
@@ -16,7 +16,7 @@ namespace Wikiled.Server.Core.Testing.Server
         public ContextManager(T controller = null)
         {
             ActionArguments = new Dictionary<string, object>();
-            ActionDescriptor = new Mock<ActionDescriptor>();
+            ActionDescriptor = new Mock<ControllerActionDescriptor>();
             RouteData = new Mock<RouteData>();
             ModelStateDictionary = new ModelStateDictionary();
             HttpContext = new Mock<HttpContext>();
@@ -27,7 +27,6 @@ namespace Wikiled.Server.Core.Testing.Server
             {
                 ControllerMock = new Mock<T>();
                 Controller = ControllerMock.Object;
-                ControllerMock.Setup(item => item.Response).Returns(Response.Object);
             }
 
             var actionContext = new ActionContext(
@@ -65,7 +64,7 @@ namespace Wikiled.Server.Core.Testing.Server
 
         public Dictionary<string, object> ActionArguments { get; }
 
-        public Mock<ActionDescriptor> ActionDescriptor { get; }
+        public Mock<ControllerActionDescriptor> ActionDescriptor { get; }
 
         public Mock<RouteData> RouteData { get; }
 

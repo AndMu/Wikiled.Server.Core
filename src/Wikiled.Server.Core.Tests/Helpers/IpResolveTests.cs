@@ -3,6 +3,7 @@ using System.Net;
 using Microsoft.AspNetCore.Http;
 using NUnit.Framework;
 using Wikiled.Server.Core.Helpers;
+using Wikiled.Server.Core.Testing.Controllers;
 using Wikiled.Server.Core.Testing.Server;
 
 namespace Wikiled.Server.Core.Tests.Helpers

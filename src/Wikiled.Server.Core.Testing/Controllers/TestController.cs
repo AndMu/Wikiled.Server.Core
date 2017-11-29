@@ -1,6 +1,8 @@
-﻿namespace Wikiled.Server.Core.Tests.Helpers
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace Wikiled.Server.Core.Testing.Controllers
 {
-    public class TestController
+    public class TestController : ControllerBase
     {
     }
 }
