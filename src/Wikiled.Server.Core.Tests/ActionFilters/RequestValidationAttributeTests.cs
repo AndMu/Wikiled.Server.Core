@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Wikiled.Server.Core.ActionFilters;
+using Wikiled.Server.Core.Responses;
 using Wikiled.Server.Core.Testing.Controllers;
 using Wikiled.Server.Core.Testing.Server;
 using Wikiled.Server.Core.Tests.Helpers;
@@ -26,7 +27,7 @@ namespace Wikiled.Server.Core.Tests.ActionFilters
         {
             context.ModelStateDictionary.AddModelError("Error", "Error");
             instance.OnActionExecuting(context.ActionExecutedContext);
-            Assert.IsInstanceOf<BadRequestObjectResult>(context.ActionExecutedContext.Result);
+            Assert.IsInstanceOf<InvalidViewStateResponse>(context.ActionExecutedContext.Result);
         }
 
         [Test]

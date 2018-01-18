@@ -24,7 +24,7 @@ namespace Wikiled.Server.Core.Tests.Responses
         [Test]
         public void Construct()
         {
-            Assert.Throws<ArgumentNullException>(() => new InvalidViewStateResponse(null));
+            Assert.Throws<ArgumentNullException>(() => new InvalidViewStateResponse((ModelStateDictionary)null));
             Assert.Throws<ArgumentException>(() => new InvalidViewStateResponse(new ModelStateDictionary()));
             Assert.AreEqual(1, instance.Errors.Length);
             Assert.AreEqual(400, instance.Code);
