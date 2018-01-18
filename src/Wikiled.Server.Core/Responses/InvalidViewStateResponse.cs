@@ -11,8 +11,14 @@ namespace Wikiled.Server.Core.Responses
             : base(400, "Serialization Error")
         {
             Guard.NotNull(() => modelState, modelState);
-            Guard.IsValid(() => modelState, modelState, dictionary => !dictionary.IsValid, "ModelState must be invlid");
+            Guard.IsValid(() => modelState, modelState, dictionary => !dictionary.IsValid, "ModelState must be invalid");
             Errors = modelState.SelectMany(item => item.Value.Errors).Select(item => item.ErrorMessage).ToArray();
+        }
+
+        public InvalidViewStateResponse(string[] errors)
+            : base(400, "Serialization Error")
+        {
+            Errors = errors;
         }
 
         public string[] Errors { get; }
