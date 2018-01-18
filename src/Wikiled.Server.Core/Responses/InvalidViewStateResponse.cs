@@ -8,32 +8,47 @@ namespace Wikiled.Server.Core.Responses
 {
     public class InvalidViewStateResponse : ApiResponse
     {
+        private readonly string status;
+
         public InvalidViewStateResponse(ModelStateDictionary modelState)
-            : base(400, "Serialization Error")
+            : base(400)
         {
             Guard.NotNull(() => modelState, modelState);
             Guard.IsValid(() => modelState, modelState, dictionary => !dictionary.IsValid, "ModelState must be invalid");
             Errors = modelState.SelectMany(item => item.Value.Errors).Select(item => item.ErrorMessage).ToArray();
+            status = GetStatus();
+        }
+
+        public InvalidViewStateResponse(string[] errors)
+            : base(400)
+        {
+            Errors = errors;
+            status = GetStatus();
         }
 
         public string[] Errors { get; }
 
-        public override string ToString()
+        
+        public override string Status => status;
+
+        private string GetStatus()
         {
+            StringBuilder errorBuilder = new StringBuilder();
+            errorBuilder.Append("Serialization Error");
+
             if (Errors == null || Errors.Length == 0)
             {
-                return "Error in request";
+                return errorBuilder.ToString();
             }
 
-            StringBuilder errorBuilder = new StringBuilder();
-            errorBuilder.Append("Error in request:");
+            errorBuilder.Append(":");
             foreach (var error in Errors)
             {
                 errorBuilder.Append($" {error}");
                 errorBuilder.Append(";");
             }
 
-            return base.ToString();
+            return errorBuilder.ToString();
         }
     }
 }

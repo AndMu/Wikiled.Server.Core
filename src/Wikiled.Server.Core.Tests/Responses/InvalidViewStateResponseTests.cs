@@ -28,7 +28,7 @@ namespace Wikiled.Server.Core.Tests.Responses
             Assert.Throws<ArgumentException>(() => new InvalidViewStateResponse(new ModelStateDictionary()));
             Assert.AreEqual(1, instance.Errors.Length);
             Assert.AreEqual(400, instance.Code);
-            Assert.AreEqual("Serialization Error", instance.Status);
+            Assert.AreEqual("Serialization Error: Test Error;", instance.Status);
             Assert.AreEqual(ResponseType.Error, instance.ResponseType);
         }
 
