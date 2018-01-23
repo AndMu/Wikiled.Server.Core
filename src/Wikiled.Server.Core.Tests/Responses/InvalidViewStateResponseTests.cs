@@ -1,7 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using NUnit.Framework;
-using Wikiled.Core.Standard.Api.Server;
 using Wikiled.Server.Core.Responses;
 
 namespace Wikiled.Server.Core.Tests.Responses
@@ -24,12 +23,11 @@ namespace Wikiled.Server.Core.Tests.Responses
         [Test]
         public void Construct()
         {
-            Assert.Throws<ArgumentNullException>(() => new InvalidViewStateResponse((ModelStateDictionary)null));
-            Assert.Throws<ArgumentException>(() => new InvalidViewStateResponse(new ModelStateDictionary()));
-            Assert.AreEqual(1, instance.Errors.Length);
-            Assert.AreEqual(400, instance.Code);
-            Assert.AreEqual("Serialization Error: Test Error;", instance.Status);
-            Assert.AreEqual(ResponseType.Error, instance.ResponseType);
+            Assert.Throws<ArgumentNullException>(() => new InvalidViewStateResponse(null));
+            ValidationResultModel model = (ValidationResultModel)instance.Value;
+            Assert.AreEqual(1, model.Errors.Length);
+            Assert.AreEqual(422, instance.StatusCode);
+            Assert.AreEqual("Validation Failed", model.Message);
         }
 
         [Test]

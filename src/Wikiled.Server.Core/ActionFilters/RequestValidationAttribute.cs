@@ -9,8 +9,7 @@ namespace Wikiled.Server.Core.ActionFilters
         {
             if (!context.ModelState.IsValid)
             {
-                var result = new InvalidViewStateResponse(context.ModelState);
-                context.Result = result;
+                context.Result = new InvalidViewStateResponse(context.ModelState);
             }
 
             base.OnActionExecuting(context);
