@@ -7,7 +7,7 @@ namespace Wikiled.Server.Core.Responses
     public class InvalidViewStateResponse : ObjectResult
     {
         public InvalidViewStateResponse(ModelStateDictionary modelState)
-            : base(new ValidationResultModel(modelState))
+            : base(new ValidationResult(modelState))
         {
             StatusCode = StatusCodes.Status422UnprocessableEntity;
         }

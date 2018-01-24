@@ -5,9 +5,9 @@ using Wikiled.Core.Standard.Arguments;
 
 namespace Wikiled.Server.Core.Responses
 {
-    public class ValidationResultModel
+    public class ValidationResult
     {
-        public ValidationResultModel(ModelStateDictionary modelState)
+        public ValidationResult(ModelStateDictionary modelState)
         {
             Guard.NotNull(() => modelState, modelState);
             Message = "Validation Failed";
@@ -17,8 +17,10 @@ namespace Wikiled.Server.Core.Responses
         }
 
         [JsonConstructor]
-        public ValidationResultModel(ValidationError[] errors, string message)
+        public ValidationResult(ValidationError[] errors, string message)
         {
+            Errors = errors;
+            Message = message;
         }
 
         public ValidationError[] Errors { get; }

@@ -24,7 +24,7 @@ namespace Wikiled.Server.Core.Tests.Responses
         public void Construct()
         {
             Assert.Throws<ArgumentNullException>(() => new InvalidViewStateResponse(null));
-            ValidationResultModel model = (ValidationResultModel)instance.Value;
+            ValidationResult model = (ValidationResult)instance.Value;
             Assert.AreEqual(1, model.Errors.Length);
             Assert.AreEqual(422, instance.StatusCode);
             Assert.AreEqual("Validation Failed", model.Message);
