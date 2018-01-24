@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json;
 using Wikiled.Core.Standard.Arguments;
 
 namespace Wikiled.Server.Core.Responses
@@ -13,6 +14,11 @@ namespace Wikiled.Server.Core.Responses
             Errors = modelState.Keys
                                .SelectMany(key => modelState[key].Errors.Select(x => new ValidationError(key, x.ErrorMessage)))
                                .ToArray();
+        }
+
+        [JsonConstructor]
+        public ValidationResultModel(ValidationError[] errors, string message)
+        {
         }
 
         public ValidationError[] Errors { get; }
