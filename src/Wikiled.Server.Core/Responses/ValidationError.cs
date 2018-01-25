@@ -14,5 +14,10 @@ namespace Wikiled.Server.Core.Responses
         public string Field { get; }
 
         public string Message { get; }
+
+        public override string ToString()
+        {
+            return $"[{Field}]: <{Message}>";
+        }
     }
 }
