@@ -12,7 +12,7 @@ namespace Wikiled.Server.Core.ActionFilters
         {
             if (!context.ModelState.IsValid)
             {
-                logger.Error("Invlid View state detected");
+                logger.Error("Invalid View state detected");
                 var response = new InvalidViewStateResponse(context.ModelState);
                 logger.Error(response.Value);
                 context.Result = response;
