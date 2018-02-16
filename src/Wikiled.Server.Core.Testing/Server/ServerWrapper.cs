@@ -3,7 +3,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using Wikiled.Core.Standard.Api.Client;
+using Wikiled.Common.Net.Client;
 using Wikiled.Server.Core.Testing.Authentication;
 
 namespace Wikiled.Server.Core.Testing.Server

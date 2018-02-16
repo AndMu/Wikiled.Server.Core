@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
-using Wikiled.Core.Standard.Arguments;
+using Wikiled.Common.Arguments;
 
 namespace Wikiled.Server.Core.Helpers
 {

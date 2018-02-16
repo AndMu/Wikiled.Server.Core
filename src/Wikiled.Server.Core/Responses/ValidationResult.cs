@@ -2,7 +2,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
-using Wikiled.Core.Standard.Arguments;
+using Wikiled.Common.Arguments;
 
 namespace Wikiled.Server.Core.Responses
 {

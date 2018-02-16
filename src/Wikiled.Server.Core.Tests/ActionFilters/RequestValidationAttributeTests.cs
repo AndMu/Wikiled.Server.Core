@@ -1,10 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
 using Wikiled.Server.Core.ActionFilters;
 using Wikiled.Server.Core.Responses;
 using Wikiled.Server.Core.Testing.Controllers;
 using Wikiled.Server.Core.Testing.Server;
-using Wikiled.Server.Core.Tests.Helpers;
 
 namespace Wikiled.Server.Core.Tests.ActionFilters
 {
@@ -15,13 +14,16 @@ namespace Wikiled.Server.Core.Tests.ActionFilters
 
         private ContextManager<TestController> context;
 
+        private NullLoggerFactory loggingFactory;
+
         [SetUp]
         public void Setup()
         {
+            loggingFactory = new NullLoggerFactory();
             context = new ContextManager<TestController>();
             instance = CreateRequestValidationAttribute();
         }
-        
+
         [Test]
         public void OnActionExecutingError()
         {
@@ -39,7 +41,7 @@ namespace Wikiled.Server.Core.Tests.ActionFilters
 
         private RequestValidationAttribute CreateRequestValidationAttribute()
         {
-            return new RequestValidationAttribute();
+            return new RequestValidationAttribute(loggingFactory);
         }
     }
 }
