@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
@@ -7,19 +7,19 @@
     <Description>Shared Server Core Test Library</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <ProjectUrl>https://github.com/AndMu/Wikiled.Server.Core</ProjectUrl>
+    <LangVersion>Latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.0.2" />
-    <PackageReference Include="Moq" Version="4.8.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Moq" Version="4.8.3" />
     <PackageReference Include="Wikiled.Common" Version="1.0.11" />
-    <PackageReference Include="Wikiled.Common.Net" Version="1.0.2" />
+    <PackageReference Include="Wikiled.Common.Net" Version="1.0.3" />
   </ItemGroup>
 
-  
 </Project>
