@@ -7,7 +7,7 @@ namespace Wikiled.Server.Core.Helpers
 {
     public class ConfigurationExtension
     {
-        public static void ChangeNlog(IConfiguration configuration, string directory = "logDirectory", string path = "path")
+        public static void ChangeNlog(this IConfiguration configuration, string directory = "logDirectory", string path = "path")
         {
             // manually refresh of NLog configuration
             // as it is not picking up global
