@@ -6,6 +6,12 @@ namespace Wikiled.Server.Core.Helpers
 {
     public static class ServiceExtensions
     {
+        public static TConfig RegisterConfiguration<TConfig>(this IServiceCollection services, IConfiguration configuration)
+            where TConfig : class, new()
+        {
+            return services.RegisterConfiguration(configuration, new TConfig());
+        }
+
         public static TConfig RegisterConfiguration<TConfig>(this IServiceCollection services, IConfiguration configuration, TConfig config) 
             where TConfig : class
         {
