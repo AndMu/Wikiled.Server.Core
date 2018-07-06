@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
-using Wikiled.Common.Arguments;
 
 namespace Wikiled.Server.Core.Responses
 {
@@ -10,7 +10,11 @@ namespace Wikiled.Server.Core.Responses
     {
         public ValidationResult(ModelStateDictionary modelState)
         {
-            Guard.NotNull(() => modelState, modelState);
+            if (modelState == null)
+            {
+                throw new ArgumentNullException(nameof(modelState));
+            }
+
             Message = "Validation Failed";
             Errors = modelState.Keys
                                .SelectMany(key => modelState[key].Errors.Select(x => new ValidationError(key, x.ErrorMessage)))

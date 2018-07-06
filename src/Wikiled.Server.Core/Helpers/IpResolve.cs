@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
-using Wikiled.Common.Arguments;
 
 namespace Wikiled.Server.Core.Helpers
 {
@@ -11,7 +10,11 @@ namespace Wikiled.Server.Core.Helpers
 
         public IpResolve(IHttpContextAccessor contextAcccessor)
         {
-            Guard.NotNull(() => contextAcccessor, contextAcccessor);
+            if (contextAcccessor == null)
+            {
+                throw new ArgumentNullException(nameof(contextAcccessor));
+            }
+
             context = contextAcccessor.HttpContext;
         }
 
