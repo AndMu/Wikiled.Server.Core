@@ -11,35 +11,61 @@ namespace Wikiled.Server.Core.Helpers
         {
             // manually refresh of NLog configuration
             // as it is not picking up global
-            LogManager.Configuration.Variables[directory] =
-                configuration.GetSection("logging").GetValue<string>(path);
-
-            var logLevel = configuration.GetValue<LogLevel>("Logging:LogLevel:Default");
-            switch (logLevel)
+            try
             {
-                case LogLevel.Trace:
-                    LogManager.GlobalThreshold = NLog.LogLevel.Trace;
-                    break;
-                case LogLevel.Debug:
-                    LogManager.GlobalThreshold = NLog.LogLevel.Debug;
-                    break;
-                case LogLevel.Information:
-                    LogManager.GlobalThreshold = NLog.LogLevel.Info;
-                    break;
-                case LogLevel.Warning:
-                    LogManager.GlobalThreshold = NLog.LogLevel.Warn;
-                    break;
-                case LogLevel.Error:
-                    LogManager.GlobalThreshold = NLog.LogLevel.Error;
-                    break;
-                case LogLevel.Critical:
-                    LogManager.GlobalThreshold = NLog.LogLevel.Fatal;
-                    break;
-                case LogLevel.None:
-                    LogManager.GlobalThreshold = NLog.LogLevel.Off;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                if (LogManager.Configuration == null)
+                {
+                    throw new NLogConfigurationException("LogManager.Configuration is null");
+                }
+
+                if (!LogManager.Configuration.Variables.ContainsKey(directory))
+                {
+                    throw new NLogConfigurationException($"{directory} is not setup as variable");
+                }
+
+                var configurationPath = configuration.GetSection("logging");
+                if (configurationPath == null)
+                {
+                    throw new NLogConfigurationException("configurationPath is not setup");
+                }
+
+                LogManager.Configuration.Variables[directory] = configurationPath.GetValue<string>(path);
+
+                var logLevel = configuration.GetValue<LogLevel>("Logging:LogLevel:Default");
+                switch (logLevel)
+                {
+                    case LogLevel.Trace:
+                        LogManager.GlobalThreshold = NLog.LogLevel.Trace;
+                        break;
+                    case LogLevel.Debug:
+                        LogManager.GlobalThreshold = NLog.LogLevel.Debug;
+                        break;
+                    case LogLevel.Information:
+                        LogManager.GlobalThreshold = NLog.LogLevel.Info;
+                        break;
+                    case LogLevel.Warning:
+                        LogManager.GlobalThreshold = NLog.LogLevel.Warn;
+                        break;
+                    case LogLevel.Error:
+                        LogManager.GlobalThreshold = NLog.LogLevel.Error;
+                        break;
+                    case LogLevel.Critical:
+                        LogManager.GlobalThreshold = NLog.LogLevel.Fatal;
+                        break;
+                    case LogLevel.None:
+                        LogManager.GlobalThreshold = NLog.LogLevel.Off;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            catch (NLogConfigurationException e)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw new NLogConfigurationException("Failed to setup NLog", e);
             }
         }
     }
