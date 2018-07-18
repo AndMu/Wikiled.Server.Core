@@ -18,6 +18,11 @@ namespace Wikiled.Server.Core.Helpers
             context = contextAcccessor.HttpContext;
         }
 
+        public IpResolve(HttpContext context)
+        {
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
         public string GetRequestIp(bool tryUseXForwardHeader = true)
         {
             string ip = null;

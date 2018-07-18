@@ -14,23 +14,21 @@ namespace Wikiled.Server.Core.Middleware
 
         private readonly ILogger _logger;
 
-        private IIpResolve resolver;
-
-        public RequestLoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IIpResolve resolver)
+        public RequestLoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
         {
             _next = next;
-            this.resolver = resolver ?? throw new ArgumentNullException(nameof(resolver));
             _logger = loggerFactory.CreateLogger<RequestLoggingMiddleware>();
         }
 
         public async Task Invoke(HttpContext context)
         {
-            _logger.LogInformation(await FormatRequest(context.Request).ConfigureAwait(false));
+            _logger.LogInformation(await FormatRequest(context).ConfigureAwait(false));
             await _next(context).ConfigureAwait(false);
         }
 
-        private async Task<string> FormatRequest(HttpRequest request)
+        private async Task<string> FormatRequest(HttpContext context)
         {
+            var request = context.Request;
             var body = request.Body;
             request.EnableRewind();
             var buffer = new byte[Convert.ToInt32(request.ContentLength)];
@@ -38,7 +36,7 @@ namespace Wikiled.Server.Core.Middleware
             var bodyAsText = Encoding.UTF8.GetString(buffer);
             request.Body = body;
 
-            return $"{resolver.GetRequestIp()} {request.Scheme} {request.Host}{request.Path} {request.QueryString} {bodyAsText}";
+            return $"{new IpResolve(context).GetRequestIp()} {request.Scheme} {request.Host}{request.Path} {request.QueryString} {bodyAsText}";
         }
     }
 }
