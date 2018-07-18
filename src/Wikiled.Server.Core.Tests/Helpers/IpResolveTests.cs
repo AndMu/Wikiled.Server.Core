@@ -25,7 +25,8 @@ namespace Wikiled.Server.Core.Tests.Helpers
         [Test]
         public void GetRequestIpNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new IpResolve(null));
+            Assert.Throws<ArgumentNullException>(() => new IpResolve((HttpContext)null));
+            Assert.Throws<ArgumentNullException>(() => new IpResolve((IHttpContextAccessor)null));
             contextManager.HttpContextAccessor.Setup(item => item.HttpContext).Returns((HttpContext)null);
             var ipResolve = new IpResolve(contextManager.HttpContextAccessor.Object);
             Assert.Throws<Exception>(() => ipResolve.GetRequestIp());

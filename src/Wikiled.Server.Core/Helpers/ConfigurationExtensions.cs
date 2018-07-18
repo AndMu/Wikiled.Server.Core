@@ -59,7 +59,7 @@ namespace Wikiled.Server.Core.Helpers
                         throw new ArgumentOutOfRangeException();
                 }
             }
-            catch (NLogConfigurationException e)
+            catch (NLogConfigurationException)
             {
                 throw;
             }
