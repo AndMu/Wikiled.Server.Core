@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NLog.Web;
 using Wikiled.Common.Net.Client;
 using Wikiled.Server.Core.Testing.Authentication;
 
@@ -35,6 +36,13 @@ namespace Wikiled.Server.Core.Testing.Server
                 .ConfigureServices(configureServices)
                 .UseWebRoot(root)
                 .UseContentRoot(root)
+                .ConfigureLogging(
+                    logging =>
+                    {
+                        logging.ClearProviders();
+                        logging.SetMinimumLevel(LogLevel.Trace);
+                    })
+                .UseNLog()
                 .UseStartup<TStartup>();
             return new ServerWrapper(builder, new LoggerFactory());
         }
