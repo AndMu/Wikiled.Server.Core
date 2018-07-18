@@ -43,7 +43,7 @@ namespace Wikiled.Server.Core.Helpers
 
             if (string.IsNullOrWhiteSpace(ip))
             {
-                throw new Exception("Unable to determine caller's IP.");
+                ip = "Failed to resolve IP";
             }
 
             return ip;

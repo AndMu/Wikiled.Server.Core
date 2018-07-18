@@ -29,24 +29,18 @@ namespace Wikiled.Server.Core.Tests.Helpers
             Assert.Throws<ArgumentNullException>(() => new IpResolve((IHttpContextAccessor)null));
             contextManager.HttpContextAccessor.Setup(item => item.HttpContext).Returns((HttpContext)null);
             var ipResolve = new IpResolve(contextManager.HttpContextAccessor.Object);
-            Assert.Throws<Exception>(() => ipResolve.GetRequestIp());
+            var result = instance.GetRequestIp();
+            Assert.AreEqual("Failed to resolve IP", result);
         }
 
         [TestCase("X-Forwarded-For", "127.0.0.1", "127.0.0.1")]
-        [TestCase("X-Forwarded-For2", "127.0.0.1", null)]
+        [TestCase("X-Forwarded-For2", "127.0.0.1", "Failed to resolve IP")]
         [TestCase("REMOTE_ADDR", "127.0.0.1", "127.0.0.1")]
         public void GetRequestIp(string header, string value, string expected)
         {
             contextManager.RequestDictionary.Add(header, value);
-            if (!string.IsNullOrEmpty(expected))
-            {
-                var result = instance.GetRequestIp();
-                Assert.AreEqual(expected, result);
-            }
-            else
-            {
-                Assert.Throws<Exception>(() => instance.GetRequestIp());
-            }
+            var result = instance.GetRequestIp();
+            Assert.AreEqual(expected, result);
         }
 
         [Test]
