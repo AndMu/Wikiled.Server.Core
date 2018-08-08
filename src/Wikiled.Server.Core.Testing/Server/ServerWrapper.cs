@@ -18,7 +18,7 @@ namespace Wikiled.Server.Core.Testing.Server
             Client = Server.CreateClient();
             Client.Timeout = TimeSpan.FromMinutes(15);
             ApiClient = new ApiClientFactory(Client, Client.BaseAddress).GetClient();
-            StreamingClient = new StreamApiClient(Client, Client.BaseAddress, loggerFactory.CreateLogger<StreamApiClient>());
+            StreamingClient = new StreamApiClient(Client, Client.BaseAddress, loggerFactory);
         }
 
         public TestServer Server { get; }
