@@ -27,6 +27,7 @@ namespace Wikiled.Server.Core.Errors
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Processing error");
                 await HandleExceptionAsync(context, ex);
             }
         }

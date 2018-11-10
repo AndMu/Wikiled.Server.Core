@@ -8,6 +8,7 @@ namespace Wikiled.Server.Core.Errors
         {
             return builder.UseMiddleware<HttpStatusCodeExceptionMiddleware>();
         }
+
         public static IApplicationBuilder UseExceptionHandlingMiddleware(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<ErrorHandlingMiddleware>();
