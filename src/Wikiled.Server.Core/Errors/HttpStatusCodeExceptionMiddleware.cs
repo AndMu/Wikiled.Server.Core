@@ -25,6 +25,7 @@ namespace Wikiled.Server.Core.Errors
             }
             catch (HttpStatusCodeException ex)
             {
+                logger.LogError(ex, "Failed");
                 if (context.Response.HasStarted)
                 {
                     logger.LogWarning("The response has already started, the http status code middleware will not be executed.");

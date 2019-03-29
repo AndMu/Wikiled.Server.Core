@@ -23,7 +23,7 @@ namespace Wikiled.Server.Core.Controllers
         [HttpGet]
         public string ServerVersion()
         {
-            var version = $"Version: [{Assembly.GetEntryAssembly().GetName().Version}]";
+            var version = $"Version: [{Assembly.GetEntryAssembly()?.GetName().Version}]";
             Logger.LogInformation("{1} Version request: {0}", version, GetType().Name);
             return version;
         }
