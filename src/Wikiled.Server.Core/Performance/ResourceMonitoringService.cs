@@ -22,21 +22,22 @@ namespace Wikiled.Server.Core.Performance
 
         private readonly TimeSpan scanTime = TimeSpan.FromMinutes(10);
 
-
         public ResourceMonitoringService(ILogger<ResourceMonitoringService> logger, IScheduler scheduler, IConfiguration config, ISystemUsageCollector collector)
         {
             var performance = config.GetSection("performance");
-            var scan = performance?.GetValue<int>("scan");
-            if (scan != null)
+            if (performance != null)
             {
-                scanTime = TimeSpan.FromMinutes(scan.Value);
+                var scan = performance.GetValue<int>("scan");
+                if (scan > 0)
+                {
+                    scanTime = TimeSpan.FromMinutes(scan);
+                }
             }
 
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.collector = collector ?? throw new ArgumentNullException(nameof(collector));
             this.scheduler = scheduler ?? throw new ArgumentNullException(nameof(scheduler));
-
-            logger.LogDebug("Will use scan every {0} minutes", scanTime);
+            logger.LogDebug("Will use scan every {0}", scanTime);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -61,7 +62,7 @@ namespace Wikiled.Server.Core.Performance
         private void Monitor()
         {
             collector.Refresh();
-            logger.LogInformation("Service Monitoring. Working Set: {0} Total CPU Used: {1} User CPU: {2}",
+            logger.LogInformation("Service Monitoring. Working Set: {0:F2} Total CPU Used: {1::F2} User CPU: {2:F2}",
                                   collector.WorkingSet,
                                   collector.TotalCpuUsed,
                                   collector.UserCpuUsed);
