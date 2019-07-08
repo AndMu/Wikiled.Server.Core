@@ -4,6 +4,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Wikiled.Common.Utilities.Performance;
 
@@ -19,16 +20,28 @@ namespace Wikiled.Server.Core.Performance
 
         private readonly IScheduler scheduler;
 
-        public ResourceMonitoringService(ILogger<ResourceMonitoringService> logger, ISystemUsageCollector collector, IScheduler scheduler)
+        private readonly TimeSpan scanTime = TimeSpan.FromMinutes(10);
+
+
+        public ResourceMonitoringService(ILogger<ResourceMonitoringService> logger, IScheduler scheduler, IConfiguration config, ISystemUsageCollector collector)
         {
+            var performance = config.GetSection("performance");
+            var scan = performance?.GetValue<int>("scan");
+            if (scan != null)
+            {
+                scanTime = TimeSpan.FromMinutes(scan.Value);
+            }
+
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.collector = collector ?? throw new ArgumentNullException(nameof(collector));
             this.scheduler = scheduler ?? throw new ArgumentNullException(nameof(scheduler));
+
+            logger.LogDebug("Will use scan every {0} minutes", scanTime);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            monitor = Observable.Interval(TimeSpan.FromMinutes(10), scheduler).StartWith(0).Subscribe(item => Monitor());
+            monitor = Observable.Interval(scanTime, scheduler).StartWith(0).Subscribe(item => Monitor());
             return Task.CompletedTask;
         }
 

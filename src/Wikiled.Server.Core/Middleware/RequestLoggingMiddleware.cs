@@ -7,21 +7,21 @@ namespace Wikiled.Server.Core.Middleware
 {
     public class RequestLoggingMiddleware
     {
-        private readonly RequestDelegate _next;
+        private readonly RequestDelegate next;
 
-        private readonly ILogger _logger;
+        private readonly ILogger logger;
 
         public RequestLoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
         {
-            _next = next;
-            _logger = loggerFactory.CreateLogger<RequestLoggingMiddleware>();
+            this.next = next;
+            logger = loggerFactory.CreateLogger<RequestLoggingMiddleware>();
         }
 
         public Task Invoke(HttpContext context)
         {
             var request = context.Request;
-            _logger.LogInformation($"{new IpResolve(context).GetRequestIp()} {request.Scheme} {request.Host}{request.Path} {request.QueryString}");
-            return _next(context);
+            logger.LogInformation($"{new IpResolve(context).GetRequestIp()} {request.Scheme} {request.Host}{request.Path} {request.QueryString}");
+            return next(context);
         }
     }
 }
