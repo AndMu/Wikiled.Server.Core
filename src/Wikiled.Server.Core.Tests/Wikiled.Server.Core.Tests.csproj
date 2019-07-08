@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.Reactive.Testing" Version="4.1.5" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
-    <packagereference Include="Microsoft.NET.Test.Sdk" Version="16.1.1"></packagereference>     
+    <packagereference Include="Microsoft.NET.Test.Sdk" Version="16.2.0"></packagereference>     
     <PackageReference Include="Moq" Version="4.12.0" />
   </ItemGroup>
 

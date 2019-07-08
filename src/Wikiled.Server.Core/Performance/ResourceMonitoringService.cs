@@ -62,10 +62,7 @@ namespace Wikiled.Server.Core.Performance
         private void Monitor()
         {
             collector.Refresh();
-            logger.LogInformation("Service Monitoring. Working Set: {0:F2} Total CPU Used: {1::F2} User CPU: {2:F2}",
-                                  collector.WorkingSet,
-                                  collector.TotalCpuUsed,
-                                  collector.UserCpuUsed);
+            logger.LogInformation(collector.GetBasic());
         }
     }
 }
