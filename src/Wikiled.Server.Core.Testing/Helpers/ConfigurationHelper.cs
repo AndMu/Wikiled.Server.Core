@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Moq;
 
-namespace Wikiled.Server.Core.Tests.Performance
+namespace Wikiled.Server.Core.Testing.Helpers
 {
     public class ConfigurationHelper
     {

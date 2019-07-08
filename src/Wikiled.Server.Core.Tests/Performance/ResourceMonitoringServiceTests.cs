@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Wikiled.Common.Utilities.Performance;
 using Wikiled.Server.Core.Performance;
+using Wikiled.Server.Core.Testing.Helpers;
 
 namespace Wikiled.Server.Core.Tests.Performance
 {
