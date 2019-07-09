@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.Reactive.Testing;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -14,9 +13,7 @@ namespace Wikiled.Server.Core.Tests.Performance
     [TestFixture]
     public class ResourceMonitoringServiceTests
     {
-        private Mock<ISystemUsageCollector> mockSystemUsageCollector;
-
-        private TestScheduler scheduler;
+        private Mock<ISystemUsageMonitor> mockSystemUsageCollector;
 
         private ResourceMonitoringService instance;
 
@@ -25,18 +22,16 @@ namespace Wikiled.Server.Core.Tests.Performance
         [SetUp]
         public void SetUp()
         {
-            mockSystemUsageCollector = new Mock<ISystemUsageCollector>();
+            mockSystemUsageCollector = new Mock<ISystemUsageMonitor>();
             config = new ConfigurationHelper();
-            scheduler = new TestScheduler();
             instance = CreateInstance();
         }
 
         [Test]
         public void Construct()
         {
-            Assert.Throws<ArgumentNullException>(() => new ResourceMonitoringService(null, scheduler, config.Config.Object, mockSystemUsageCollector.Object));
-            Assert.Throws<ArgumentNullException>(() => new ResourceMonitoringService(new NullLogger<ResourceMonitoringService>(), null, config.Config.Object, mockSystemUsageCollector.Object));
-            Assert.Throws<ArgumentNullException>(() => new ResourceMonitoringService(new NullLogger<ResourceMonitoringService>(), scheduler, config.Config.Object, null));
+            Assert.Throws<ArgumentNullException>(() => new ResourceMonitoringService(null, config.Config.Object, mockSystemUsageCollector.Object));
+            Assert.Throws<ArgumentNullException>(() => new ResourceMonitoringService(new NullLogger<ResourceMonitoringService>(), config.Config.Object, null));
         }
 
         [Test]
@@ -50,35 +45,12 @@ namespace Wikiled.Server.Core.Tests.Performance
         {
             await instance.StartAsync(CancellationToken.None).ConfigureAwait(false);
             instance.Dispose();
-        }
-
-        [Test]
-        public async Task MonitorDefault()
-        {
-            await instance.StartAsync(CancellationToken.None).ConfigureAwait(false);
-            mockSystemUsageCollector.Verify(item => item.Refresh(), Times.Exactly(1));
-            scheduler.AdvanceBy(TimeSpan.FromMinutes(10).Ticks);
-            mockSystemUsageCollector.Verify(item => item.Refresh(), Times.Exactly(2));
-        }
-
-        [Test]
-        public async Task Monitor()
-        {
-            config.SetupSection("performance");
-            config.SetupValue("scan", "1");
-            var service = new ResourceMonitoringService(new NullLogger<ResourceMonitoringService>(),
-                                                         scheduler,
-                                                         config.Config.Object,
-                                                         mockSystemUsageCollector.Object);
-            await service.StartAsync(CancellationToken.None).ConfigureAwait(false);
-            mockSystemUsageCollector.Verify(item => item.Refresh(), Times.Exactly(1));
-            scheduler.AdvanceBy(TimeSpan.FromMinutes(10).Ticks);
-            mockSystemUsageCollector.Verify(item => item.Refresh(), Times.Exactly(11));
+            mockSystemUsageCollector.Verify(item => item.Dispose());
         }
 
         private ResourceMonitoringService CreateInstance()
         {
-            return new ResourceMonitoringService(new NullLogger<ResourceMonitoringService>(),  scheduler, config.Config.Object, mockSystemUsageCollector.Object);
+            return new ResourceMonitoringService(new NullLogger<ResourceMonitoringService>(), config.Config.Object, mockSystemUsageCollector.Object);
         }
     }
 }

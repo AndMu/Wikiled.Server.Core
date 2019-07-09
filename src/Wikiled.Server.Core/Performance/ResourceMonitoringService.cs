@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Wikiled.Common.Utilities.Performance;
 
 namespace Wikiled.Server.Core.Performance
@@ -14,15 +12,11 @@ namespace Wikiled.Server.Core.Performance
     {
         private readonly ILogger<ResourceMonitoringService> logger;
 
-        private IDisposable monitor;
-
-        private readonly ISystemUsageCollector collector;
-
-        private readonly IScheduler scheduler;
+        private ISystemUsageMonitor monitor;
 
         private readonly TimeSpan scanTime = TimeSpan.FromMinutes(10);
 
-        public ResourceMonitoringService(ILogger<ResourceMonitoringService> logger, IScheduler scheduler, IConfiguration config, ISystemUsageCollector collector)
+        public ResourceMonitoringService(ILogger<ResourceMonitoringService> logger, IConfiguration config, ISystemUsageMonitor monitor)
         {
             var performance = config.GetSection("performance");
             if (performance != null)
@@ -35,34 +29,44 @@ namespace Wikiled.Server.Core.Performance
             }
 
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.collector = collector ?? throw new ArgumentNullException(nameof(collector));
-            this.scheduler = scheduler ?? throw new ArgumentNullException(nameof(scheduler));
-            logger.LogDebug("Will use scan every {0}", scanTime);
+            this.monitor = monitor ?? throw new ArgumentNullException(nameof(monitor));
+            logger.LogDebug("Will scan every {0}", scanTime);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            monitor = Observable.Interval(scanTime, scheduler).StartWith(0).Subscribe(item => Monitor());
+            monitor.Refreshed += MonitorOnRefreshed;
+            monitor.Start(scanTime, TimeSpan.FromMilliseconds(scanTime.TotalMilliseconds * 3));
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            monitor?.Dispose();
-            monitor = null;
+            StopProcessing();
             return Task.CompletedTask;
         }
 
         public void Dispose()
         {
-            monitor?.Dispose();
+            StopProcessing();
+        }
+
+        private void StopProcessing()
+        {
+            if (monitor == null)
+            {
+                return;
+            }
+
+            monitor.Refreshed -= MonitorOnRefreshed;
+            monitor.Dispose();
             monitor = null;
         }
 
-        private void Monitor()
+        private void MonitorOnRefreshed(object sender, EventArgs e)
         {
-            collector.Refresh();
-            logger.LogInformation(collector.GetBasic());
+            logger.LogInformation("MAX: {0}", monitor.UsageBucket.Max.GetBasic());
+            logger.LogInformation("Average: {0}", monitor.UsageBucket.Average.GetBasic());
         }
     }
 }
