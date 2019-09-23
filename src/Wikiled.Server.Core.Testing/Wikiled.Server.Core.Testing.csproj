@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <IsPackable>true</IsPackable>
     <Authors>Wikiled</Authors>
     <Description>Shared Server Core Test Library</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
