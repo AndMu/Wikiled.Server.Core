@@ -46,7 +46,7 @@ namespace Wikiled.Server.Core.Tests.Helpers
         [Test]
         public void GetRequestIpConnection()
         {
-            contextManager.ConnectionInfo.RemoteIpAddress = IPAddress.Parse("192.168.0.1");
+            contextManager.ConnectionInfo.Setup(item => item.RemoteIpAddress).Returns(IPAddress.Parse("192.168.0.1"));
             var result = instance.GetRequestIp();
             Assert.AreEqual("192.168.0.1", result);
         }

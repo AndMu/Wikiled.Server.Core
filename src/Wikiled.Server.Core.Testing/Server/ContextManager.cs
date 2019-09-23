@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -43,8 +41,9 @@ namespace Wikiled.Server.Core.Testing.Server
             HttpContext.Setup(item => item.Request).Returns(HttpRequest.Object);
             RequestDictionary = new HeaderDictionary();
             HttpRequest.Setup(item => item.Headers).Returns(RequestDictionary);
-            ConnectionInfo = new DefaultConnectionInfo(new FeatureCollection());
-            HttpContext.Setup(item => item.Connection).Returns(ConnectionInfo);
+
+            ConnectionInfo = new Mock<ConnectionInfo>();
+            HttpContext.Setup(item => item.Connection).Returns(ConnectionInfo.Object);
             HttpContextAccessor = new Mock<IHttpContextAccessor>();
             HttpContextAccessor.Setup(item => item.HttpContext).Returns(HttpContext.Object);
             ControllerContext = new ControllerContext(actionContext);
@@ -60,7 +59,7 @@ namespace Wikiled.Server.Core.Testing.Server
 
         public Mock<HttpResponse> Response { get; }
 
-        public DefaultConnectionInfo ConnectionInfo { get; }
+        public Mock<ConnectionInfo> ConnectionInfo { get; }
 
         public Dictionary<string, object> ActionArguments { get; }
 

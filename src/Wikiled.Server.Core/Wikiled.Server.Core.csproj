@@ -1,17 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
-	<Authors>Wikiled</Authors>
-	<Description>Shared Server Core Library</Description>
-	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>	
-	<ProjectUrl>https://github.com/AndMu/Wikiled.Server.Core</ProjectUrl>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Authors>Wikiled</Authors>
+    <Description>Shared Server Core Library</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <ProjectUrl>https://github.com/AndMu/Wikiled.Server.Core</ProjectUrl>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />    
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.4" />
     <PackageReference Include="Wikiled.Common" Version="1.1.9" />
     <PackageReference Include="Wikiled.Common.Net" Version="1.2.3" />
