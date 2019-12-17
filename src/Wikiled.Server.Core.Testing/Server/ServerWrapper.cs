@@ -2,6 +2,7 @@
 using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
@@ -10,7 +11,7 @@ using Wikiled.Server.Core.Testing.Authentication;
 
 namespace Wikiled.Server.Core.Testing.Server
 {
-    public class ServerWrapper : IDisposable
+    public sealed class ServerWrapper : IDisposable
     {
         public ServerWrapper(IWebHostBuilder builder, ILoggerFactory loggerFactory)
         {
@@ -19,9 +20,12 @@ namespace Wikiled.Server.Core.Testing.Server
             Client.Timeout = TimeSpan.FromMinutes(15);
             ApiClient = new ApiClientFactory(Client, Client.BaseAddress).GetClient();
             StreamingClient = new StreamApiClient(Client, Client.BaseAddress, loggerFactory);
+            SocketClient = Server.CreateWebSocketClient();
         }
 
         public TestServer Server { get; }
+
+        public WebSocketClient SocketClient { get; }
 
         public IApiClient ApiClient { get; }
 
@@ -29,13 +33,19 @@ namespace Wikiled.Server.Core.Testing.Server
 
         public IStreamApiClient StreamingClient { get; }
 
-        public static ServerWrapper Create<TStartup>(string root, Action<IServiceCollection> configureServices)
+        public static ServerWrapper Create<TStartup>(string root, Action<IServiceCollection> configureServices = null, Action<WebHostBuilderContext, IConfigurationBuilder> configureDelegate = null)
             where TStartup : class
         {
+            if (configureDelegate == null)
+            {
+                configureDelegate = (hostingContext, config) => { };
+            }
+            
             var builder = new WebHostBuilder()
-                .ConfigureServices(configureServices)
+                .ConfigureTestServices(configureServices)
                 .UseWebRoot(root)
                 .UseContentRoot(root)
+                .ConfigureAppConfiguration(configureDelegate)
                 .ConfigureLogging(
                     logging =>
                     {
