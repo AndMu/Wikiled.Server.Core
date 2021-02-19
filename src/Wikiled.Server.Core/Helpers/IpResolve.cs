@@ -51,7 +51,8 @@ namespace Wikiled.Server.Core.Helpers
 
         private T GetHeaderValueAs<T>(string headerName)
         {
-            if (context?.Request?.Headers?.TryGetValue(headerName, out var values) ?? false)
+            if (context != null &&
+                context.Request.Headers.TryGetValue(headerName, out var values))
             {
                 string rawValues = values.ToString();  
                 if (!string.IsNullOrEmpty(rawValues))
@@ -60,7 +61,7 @@ namespace Wikiled.Server.Core.Helpers
                 }
             }
 
-            return default(T);
+            return default;
         }
     }
 }
